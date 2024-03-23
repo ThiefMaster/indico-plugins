@@ -15,6 +15,10 @@ to local storage (but it would of course be possible to write a script for this)
 
 ## Changelog
 
+### 3.1337
+
+- This is just a test to see if the CI build picks this up :)
+
 ### 3.3
 
 - Support Python 3.12
