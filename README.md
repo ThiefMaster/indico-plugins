@@ -4,6 +4,8 @@ This repository contains all the official plugins for [Indico][indico].
 
 These plugins are licensed under the MIT license.
 
+blah blah just a test w/o touching any plugins
+
 ## Note
 
 In applying the MIT license, CERN does not waive the privileges and immunities
