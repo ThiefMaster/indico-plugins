@@ -24,6 +24,28 @@ on:
         type: boolean
         default: true
         description: Append version suffix
+      plugin-name:
+        description: Build specific plugin
+        type: choice
+        options:
+          - ''  # all plugins
+          - citadel
+          - cloud_captchas
+          - livesync
+          - livesync_debug
+          - owncloud
+          - payment_manual
+          - payment_paypal
+          - payment_sixpay
+          - piwik
+          - previewer_code
+          - previewer_jupyter
+          - prometheus
+          - storage_s3
+          - themes_legacy
+          - ursh
+          - vc_dummy
+          - vc_zoom
 
 permissions:
   contents: read
@@ -31,10 +53,12 @@ permissions:
 jobs:
   build:
     name: Build plugins 🏗
-    uses: indico/indico-gh-actions/.github/workflows/build-plugins.yml@master
+    uses: ThiefMaster/indico-gh-actions/.github/workflows/build-plugins.yml@master
     with:
+      scripts-repo: ThiefMaster/indico-gh-actions
       directory: public
       add-version-suffix: ${{ github.event_name != 'workflow_dispatch' || inputs.add-version-suffix }}
+      plugin: ${{ github.event_name == 'workflow_dispatch' && inputs.plugin-name }}
 
   bundle:
     name: Bundle wheels 📦
