@@ -76,6 +76,7 @@ class PrometheusPlugin(IndicoPlugin):
 
     def init(self):
         super().init()
+        print('Prometheus: define metrics')
         define_metrics()
 
     def get_blueprints(self):

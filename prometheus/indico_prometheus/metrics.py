@@ -85,11 +85,14 @@ def define_metrics():
     m.num_ongoing_occurrences = metrics.Gauge('indico_num_ongoing_booking_occurrences', 'Number of ongoing bookings')
 
     if LIVESYNC_AVAILABLE and plugin_engine.has_plugin('livesync'):
+        print('Prometheus: livesync available during define')
         m.size_livesync_queues = metrics.Gauge('indico_size_livesync_queues', 'Items in Livesync queues')
         m.num_livesync_events_category_changes = metrics.Gauge(
             'indico_num_livesync_events_category_changes',
             'Number of event updates due to category changes queued up in Livesync'
         )
+    else:
+        print('Prometheus: livesync NOT available during define')
 
 
 def get_attachment_stats():
@@ -136,6 +139,7 @@ def update_metrics(active_user_age: timedelta, cache: ScopedCache, heavy_cache_t
     m.size_attachment_files.set(attachment_stats['size_total'])
 
     if LIVESYNC_AVAILABLE and plugin_engine.has_plugin('livesync'):
+        print('Prometheus: livesync available during update')
         m.size_livesync_queues.set(LiveSyncQueueEntry.query.filter(~LiveSyncQueueEntry.processed).count())
         m.num_livesync_events_category_changes.set(
             db.session.query(db.func.sum(Category.deep_events_count))
@@ -143,6 +147,8 @@ def update_metrics(active_user_age: timedelta, cache: ScopedCache, heavy_cache_t
             .filter(~LiveSyncQueueEntry.processed, LiveSyncQueueEntry.type == 1)
             .scalar() or 0
         )
+    else:
+        print('Prometheus: livesync NOT available during update')
 
     m.num_notes.set(get_note_query().count())
 
